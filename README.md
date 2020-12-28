@@ -24,7 +24,7 @@ FalconDB is an in-memory key-value storage software in C++ built as a part of CS
 
 A key-value store is a simple database that uses an associative array as the fundamental data model where each key is associated with one and only one value in a collection.
 
-<div style="text-align:center;"><img src="../images/key_value.png" /></div>
+<div style="text-align:center;"><img src="images/key_value.png" /></div>
 
 Key-value stores have no query language. They provide a way to store, retrieve and update data using simple get, put and delete commands; the path to retrieve data is a direct request to the object in memory. The simplicity of this model makes a key-value store fast, easy to use, scalable, portable and flexible.
 <br>
@@ -33,7 +33,7 @@ Key-value stores have no query language. They provide a way to store, retrieve a
 
 A trie is a multiway tree structure that stores sets of strings by successively partitioning them. Tries have two properties that cannot be easily imposed on data structures based on binary search. 
 
-<div style="text-align:center;"><img src="../images/basic_trie.png" /></div>
+<div style="text-align:center;"><img src="images/basic_trie.png" /></div>
 
 First, strings are clustered by shared prefix. Second, there is a great reduction in the number of string comparisons—an important characteristic, as a major obstacle to efficiency is excessive numbers of string comparisons. Tries can be rapidly traversed and offer good worst-case performance, without the overhead  of balancing. 
 <br>
@@ -44,7 +44,7 @@ Radix Trie is a specialized set data structure based on the trie that is used to
 
 Regular Trie            |  Compressed Trie
 :-------------------------:|:-------------------------:
-![](http://www.mathcs.emory.edu/~cheung/Courses/323/Syllabus/Text/FIGS/Trie/trie07.gif)  |  ![](http://www.mathcs.emory.edu/~cheung/Courses/323/Syllabus/Text/FIGS/Trie/trie08.gif)
+![](http://www.cs.emory.edu/~cheung/Courses/253/Syllabus/Text/FIGS/Trie/trie07.gif)  |  ![](http://www.cs.emory.edu/~cheung/Courses/253/Syllabus/Text/FIGS/Trie/trie08.gif)
 
 The radix tree is easiest to understand as a space-optimized trie where each node with only one child is merged with its child. The result is that every internal node has at least two children. Unlike in regular tries, edges can be labeled with sequences of characters as well as single characters. This makes them much more efficient for small sets  and for sets of strings that share long prefixes. 
 
