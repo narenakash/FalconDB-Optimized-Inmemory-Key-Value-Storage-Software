@@ -52,16 +52,16 @@ The radix tree is easiest to understand as a space-optimized trie where each nod
 
 Compressed Trie supports the following main operations, all of which are O(k), where k is the maximum length of all strings in the set:
 
-#### Lookup: 
+#### 01. Lookup: 
 Determines if a string is in the set. This operation is identical to tries except that some edges consume multiple characters.
 
-#### Insert: 
+#### 02. Insert: 
 Add a string to the tree. We search the tree until we can make no further progress. At this point we either add a new outgoing edge labeled with all remaining characters in the input string, or if there is already an outgoing edge sharing a prefix with the remaining input string, we split it into two edges (the first labeled with the common prefix) and proceed. This splitting step ensures that no node has more children than there are possible string characters.
 
-#### Delete: 
+#### 03. Delete: 
 Delete a string from the tree. First, we delete the corresponding leaf. Then, if its parent only has one child remaining, we delete the parent and merge the two incident edges.
 
-#### Lexicographical Storage
+#### 04. Lexicographical Storage
 The array present in each node is of size 58 where the index corresponds to the alphabets in ASCII notation.
 This takes care of the sorting of keys.
 
@@ -89,11 +89,11 @@ The del_lock, put_lock, get_lock are for the respective API calls, while the db_
 
 ## Code Analysis
 
-### 1. Benchmark Slice Struct
+### 01. Benchmark Slice Struct
 
 Slice struct is used for storing the key and the value of every KV pair. The value of key or value along with its length are the components of the struct. By default, as defined in the constructor, the size is equal to 0 and the data value is a null string.
 
-### 2. Compressed Trie Node Struct
+### 02. Compressed Trie Node Struct
 
 Trie struct has:
 * an array of Trie structs to store the children nodes, 
@@ -102,25 +102,25 @@ Trie struct has:
 * a string which stores the key ending at that node (if any) and
 * a slice struct for storing the value associated with the key if the node is a terminal node.
 
-### 3. Creating a new node 
+### 03. Creating a new node 
 
 When a new node is created in the radix trie, it has zero descendants and is defined to not be a end node. All the children node pointers are by default initialized to NULL.
 
-### 4. Searching for a node
+### 04. Searching for a node
 
 Starting from the root node, recursivesly go down each layer and look for a key match with the key words terminating at that node under consideration. If matched and the node is a terminal node, we output True.
 
-### 5. Inserting a new node
+### 05. Inserting a new node
 Add a string to the tree. We search the tree until we can make no further progress. At this point there are five
 possible cases,
 
 
-####Case 01 
+#### Case 01 
 
 Key to be inserted doesn't exist and had no common prefix in the database:
 In this case the key is simply inserted via a pointer from the root node.
 
-####Case 02
+#### Case 02
 
 Key to be inserted already exits.
 
@@ -129,13 +129,13 @@ for this key the descendants are incremented due to a condition in the search fu
 
 To correct this appropriate node descendant values are decremented.
 
-####Case 03
+#### Case 03
 
 The key to be inserted is a super string of a node present in the database
 
 Here, the common prefix is left untouched and the remaining part is attached is node to this common prefix.
 
-####Case 04
+#### Case 04
 
 The key to be inserted is a substring of a node in the database.
 
@@ -144,7 +144,7 @@ common prefix node.
 
 The descendants of the new and existing nodes are updated appropriately.
 
-####Case 05
+#### Case 05
 
 The key to be inserted has a common prefix with an existing node in the trie.
 
@@ -155,11 +155,11 @@ the existing uncommon node is also attached to the common prefix node.
 All splitting steps ensure that no node has more children than there are possible string characters.
 
 
-### 6. Remove a node from the trie
+### 06. Remove a node from the trie
 
 Search through the nodes and find out the node where the desired key terminates. If the parent of that node had only one other child, remove that parent node too and add the other node to the grand-parent node of the respective terminal nodes.
 
-### 7. Searching the lexograpichally Nth smallest key
+### 07. Searching the lexograpichally Nth smallest key
 
 The SearchN function is used to find the key of the lexographcially Nth smallest key and the KV pair is removed from the radix trie using the TrieRemove function with the obtained key as a parameter.
 
@@ -167,13 +167,13 @@ The SearchN function is used to find the key of the lexographcially Nth smallest
 
 Searching a trie T for a key w just requires tracing a path down the trie as follows: at depth i, the ith digit of w is used to orientate the branching. We need to specify which search structure is used to choose the correct sub-trie within a node.  
 
-#### 1. Array-Trie Hybrid
+#### 01. Array-Trie Hybrid
 Uses an array of pointers to sub-tries. In case of a large alphabet too many empty pointers are created. 
 
-#### 2.  Linked List-Trie Hybrid
+#### 02.  Linked List-Trie Hybrid
 Linked list of sub-tries reduces the high storage requirement of the array-trie hybrid but traversal operations are expensive. 
 
-#### 3. BST-Trie Hybrid
+#### 03. BST-Trie Hybrid
 Binary Search Trees have the time efficiency of arrays and the space efficiency of the linked lists. 
 <br>
 
